@@ -1,6 +1,100 @@
 ﻿@{
     ViewData["Title"] = "Privacy Policy";
 }
-<h1>@ViewData["Title"]</h1>
 
-<p>Use this page to detail your site's privacy policy.</p>
+<div class="container py-5">
+    <!-- Header Section -->
+    <div class="text-center mb-5">
+        <h1 class="display-4 fw-bold text-primary">Privacy Policy</h1>
+        <p class="lead text-muted">Your security is our priority. Here is how we handle your data.</p>
+        <p class="text-small text-secondary">Last Updated: @DateTime.Now.ToString("MMMM dd, yyyy")</p>
+    </div>
+
+    <!-- Policy Content -->
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+
+            <!-- Introduction Card -->
+            <div class="card shadow-sm border-0 mb-4">
+                <div class="card-body p-4">
+                    <h4 class="card-title"><i class="fas fa-shield-alt text-success me-2"></i>Overview</h4>
+                    <p class="card-text">
+                        Welcome to <strong>Account and Password Manager</strong>. We are committed to protecting your personal information and your right to privacy.
+                        This policy explains what information we collect, how we use it, and the steps we take to ensure your digital vault remains secure.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Accordion for Detailed Sections -->
+            <div class="accordion shadow-sm" id="privacyAccordion">
+
+                <!-- Section 1: Information Collection -->
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingOne">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                            <strong>1. Information We Collect</strong>
+                        </button>
+                    </h2>
+                    <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#privacyAccordion">
+                        <div class="accordion-body">
+                            <ul>
+                                <li><strong>Account Information:</strong> When you register, we collect your email address and username to manage your account access.</li>
+                                <li>
+                                    <strong>Encrypted Vault Data:</strong> We store the account credentials (usernames, passwords, URLs) you choose to save.
+                                    <span class="badge bg-info text-dark">Note</span> These are stored in an encrypted format.
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section 2: Data Security -->
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingTwo">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                            <strong>2. How We Secure Your Data</strong>
+                        </button>
+                    </h2>
+                    <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#privacyAccordion">
+                        <div class="accordion-body">
+                            <p>Security is the core of our application. We employ the following measures:</p>
+                            <ul>
+                                <li><strong>Encryption:</strong> Passwords are hashed and salted before being stored. We cannot read your actual passwords.</li>
+                                <li><strong>Database Security:</strong> Your data is hosted on a secure <strong>Oracle Database</strong> infrastructure, utilizing enterprise-grade security protocols.</li>
+                                <li><strong>HTTPS:</strong> All communication between your browser and our servers is encrypted via SSL/TLS.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section 3: Information Usage -->
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingThree">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                            <strong>3. How We Use Your Information</strong>
+                        </button>
+                    </h2>
+                    <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#privacyAccordion">
+                        <div class="accordion-body">
+                            We use your information solely for:
+                            <ul>
+                                <li>Providing and maintaining the Password Manager service.</li>
+                                <li>Authenticating your identity when you log in.</li>
+                                <li>Notifying you about changes to our service.</li>
+                            </ul>
+                            <p class="mt-2"><em>We do not sell, trade, or rent your personal identification information to others.</em></p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Contact Footer -->
+            <div class="alert alert-light border mt-4 text-center" role="alert">
+                <h5 class="alert-heading">Have questions?</h5>
+                <p class="mb-0">If you have any concerns about this policy, please contact us at <a href="mailto:support@accountmanager.local">support@accountmanager.local</a>.</p>
+            </div>
+
+        </div>
+    </div>
+</div>

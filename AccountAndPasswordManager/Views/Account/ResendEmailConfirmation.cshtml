@@ -1,0 +1,41 @@
+@model AccountAndPasswordManager.Models.ViewModels.ResendEmailConfirmationViewModel
+
+@{
+    ViewData["Title"] = "Resend email confirmation";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-5">
+            <div class="card shadow-lg border-0">
+                <div class="card-body p-5">
+                    <div class="text-center mb-4">
+                        <i class="fa-solid fa-envelope fa-3x text-info mb-3"></i>
+                        <h1 class="h4 mb-3 fw-bold">@ViewData["Title"]</h1>
+                        <p class="text-muted">Enter your email to resend confirmation</p>
+                    </div>
+
+                    <form asp-action="ResendEmailConfirmation" asp-controller="Account" method="post">
+                        <div asp-validation-summary="All" class="alert alert-danger" role="alert"></div>
+
+                        <div class="form-floating mb-3">
+                            <input asp-for="Email" class="form-control" placeholder="name@example.com" />
+                            <label asp-for="Email">Email</label>
+                            <span asp-validation-for="Email" class="text-danger"></span>
+                        </div>
+
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-info btn-lg">
+                                <i class="fa-solid fa-paper-plane me-2"></i>Resend
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

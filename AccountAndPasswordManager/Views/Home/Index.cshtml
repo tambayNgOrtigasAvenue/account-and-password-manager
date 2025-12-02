@@ -2,7 +2,93 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+
+@if (SignInManager.IsSignedIn(User))
+{
+    <div class="container mt-4">
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="card shadow-sm border-0 border-start border-5 border-primary">
+                    <div class="card-body">
+                        <h2 class="card-title text-dark">Welcome back, @User.Identity?.Name!</h2>
+                        <p class="card-text text-muted">Your vault is secure and synchronized.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row g-4">
+            <div class="col-md-6">
+                <div class="card h-100 text-center border-0 shadow-sm hover-shadow">
+                    <div class="card-body py-5">
+                        <div class="mb-3 text-primary">
+                            <i class="fa-solid fa-plus fa-3x"></i>
+                        </div>
+                        <h3 class="card-title">Add Password</h3>
+                        <p class="card-text">Store a new credential securely in the database.</p>
+                        <a asp-controller="Dashboard" asp-action="Index" class="btn btn-primary btn-lg px-4">Add New</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card h-100 text-center border-0 shadow-sm hover-shadow">
+                    <div class="card-body py-5">
+                        <div class="mb-3 text-success">
+                            <i class="fa-solid fa-vault fa-3x"></i>
+                        </div>
+                        <h3 class="card-title">View My Vault</h3>
+                        <p class="card-text">Access your stored credentials.</p>
+                        <a asp-controller="Dashboard" asp-action="Index" class="btn btn-outline-success btn-lg px-4">Open Vault</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <div class="p-5 mb-4 bg-light rounded-3 shadow-sm border">
+        <div class="container-fluid py-5">
+            <div class="row align-items-center">
+                <div class="col-lg-6">
+                    <h1 class="display-5 fw-bold text-dark">Secure your digital life.</h1>
+                    <p class="col-md-8 fs-4 text-muted">
+                        Stop worrying about forgetting passwords. SecureVault keeps your credentials safe with enterprise-grade encryption.
+                    </p>
+                    <a class="btn btn-primary btn-lg mt-3" asp-controller="Account" asp-action="Register" role="button">Get Started Free</a>
+                    <a class="btn btn-outline-secondary btn-lg mt-3 ms-2" asp-controller="Account" asp-action="Login" role="button">Login</a>
+                </div>
+                <div class="col-lg-6 text-center d-none d-lg-block">
+                    <i class="fa-solid fa-shield-cat text-primary" style="font-size: 12rem; opacity: 0.8;"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row align-items-md-stretch">
+        <div class="col-md-4 mb-3">
+            <div class="h-100 p-4 text-white bg-dark rounded-3 shadow-sm">
+                <div class="mb-3 text-info"><i class="fa-solid fa-lock fa-2x"></i></div>
+                <h2>AES Encryption</h2>
+                <p>Your data is encrypted before it ever leaves your device. We utilize industry-standard hashing and salting protocols to ensure zero-knowledge privacy.</p>
+            </div>
+        </div>
+        <div class="col-md-4 mb-3">
+            <div class="h-100 p-4 bg-white border rounded-3 shadow-sm">
+                <div class="mb-3 text-danger"><i class="fa-solid fa-database fa-2x"></i></div>
+                <h2>SSMS Reliability</h2>
+                <p>Powered by <strong>SSMS Database</strong> technology. Experience high-performance transactions, ACID compliance, and unmatched data integrity for your credentials.</p>
+            </div>
+        </div>
+        <div class="col-md-4 mb-3">
+            <div class="h-100 p-4 bg-light border rounded-3 shadow-sm">
+                <div class="mb-3 text-primary"><i class="fa-solid fa-mobile-screen fa-2x"></i></div>
+                <h2>Accessibility</h2>
+                <p>Access your vault from anywhere. Our responsive design ensures you can retrieve your passwords securely from your desktop, tablet, or mobile device.</p>
+            </div>
+        </div>
+    </div>
+}

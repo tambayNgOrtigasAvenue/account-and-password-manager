@@ -1,0 +1,39 @@
+@{
+    ViewData["Title"] = "Register confirmation";
+    var email = ViewData["Email"]?.ToString();
+    var displayConfirmAccountLink = ViewData["DisplayConfirmAccountLink"] as bool? ?? false;
+    var emailConfirmationUrl = ViewData["EmailConfirmationUrl"]?.ToString();
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <div class="card shadow-lg border-0">
+                <div class="card-body p-5 text-center">
+                    <i class="fa-solid fa-envelope-circle-check fa-4x text-info mb-4"></i>
+                    <h1 class="h3 mb-4">@ViewData["Title"]</h1>
+   
+                    @if (displayConfirmAccountLink)
+                    {
+                        <p class="mb-3">
+                        This app does not currently have a real email sender registered. 
+                        <a id="confirm-link" href="@emailConfirmationUrl">Click here to confirm your account</a>
+                        </p>
+                    }
+
+                    else
+                    {
+                        <p class="lead mb-3">
+                            Please check your email to confirm your account.
+                        </p>
+
+                        <div class="alert alert-info">
+                            <i class="fa-solid fa-circle-info me-2"></i>
+                                We've sent a confirmation link to <strong>@email</strong>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

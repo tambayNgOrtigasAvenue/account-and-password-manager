@@ -1,0 +1,155 @@
+@model AccountAndPasswordManager.Models.ViewModels.ManageIndexViewModel
+
+@{
+    ViewData["Title"] = "Profile Management";
+    var statusMessage = TempData["StatusMessage"]?.ToString();
+}
+
+<div class="container mt-5 mb-5">
+    <!-- Page Header -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="d-flex align-items-center">
+                <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
+                    <i class="fa-solid fa-user fa-2x"></i>
+                </div>
+                <div class="ms-3">
+                    <h2 class="mb-0 fw-bold">@ViewData["Title"]</h2>
+                    <p class="text-muted mb-0">Manage your account settings and preferences</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Status Message -->
+    @if (!string.IsNullOrEmpty(statusMessage))
+    {
+        var cssClass = statusMessage.StartsWith("Error") ? "danger" : "success";
+        var iconClass = statusMessage.StartsWith("Error") ? "fa-circle-exclamation" : "fa-circle-check";
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="alert alert-@cssClass alert-dismissible fade show shadow-sm" role="alert">
+                    <i class="fa-solid @iconClass me-2"></i>
+                    <strong>@statusMessage</strong>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            </div>
+        </div>
+    }
+
+    <!-- Main Content -->
+    <div class="row">
+        <!-- Sidebar Navigation -->
+        <div class="col-lg-3 col-md-4 mb-4">
+            <div class="card shadow-sm border-0">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0"><i class="fa-solid fa-sliders me-2"></i>Settings</h5>
+                </div>
+                <div class="list-group list-group-flush">
+                    <a class="list-group-item list-group-item-action active" asp-controller="Manage" asp-action="Index">
+                        <i class="fa-solid fa-user me-2"></i>Profile
+                    </a>
+                    <a class="list-group-item list-group-item-action" href="#" style="pointer-events: none; opacity: 0.6;">
+                        <i class="fa-solid fa-envelope me-2"></i>Email
+                        <span class="badge bg-secondary float-end">Soon</span>
+                    </a>
+                    <a class="list-group-item list-group-item-action" href="#" style="pointer-events: none; opacity: 0.6;">
+                        <i class="fa-solid fa-key me-2"></i>Password
+                        <span class="badge bg-secondary float-end">Soon</span>
+                    </a>
+                    <a class="list-group-item list-group-item-action" href="#" style="pointer-events: none; opacity: 0.6;">
+                        <i class="fa-solid fa-shield-halved me-2"></i>Two-Factor Auth
+                        <span class="badge bg-secondary float-end">Soon</span>
+                    </a>
+                    <a class="list-group-item list-group-item-action" href="#" style="pointer-events: none; opacity: 0.6;">
+                        <i class="fa-solid fa-download me-2"></i>Personal Data
+                        <span class="badge bg-secondary float-end">Soon</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Profile Form -->
+        <div class="col-lg-9 col-md-8">
+            <div class="card shadow-sm border-0">
+                <div class="card-header bg-white border-bottom">
+                    <h5 class="mb-0 text-dark"><i class="fa-solid fa-id-card me-2"></i>Profile Information</h5>
+                </div>
+                <div class="card-body p-4">
+                    <form asp-controller="Manage" asp-action="Index" method="post">
+                        <div asp-validation-summary="ModelOnly" class="alert alert-danger shadow-sm" role="alert"></div>
+
+                        <!-- Username Field -->
+                        <div class="row mb-4">
+                            <div class="col-12">
+                                <label asp-for="Username" class="form-label fw-bold">
+                                    <i class="fa-solid fa-at text-primary me-1"></i>Username (Email)
+                                </label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-light border-end-0">
+                                        <i class="fa-solid fa-user text-muted"></i>
+                                    </span>
+                                    <input asp-for="Username" class="form-control border-start-0 bg-light" disabled style="cursor: not-allowed;" />
+                                </div>
+                                <small class="form-text text-muted">
+                                    <i class="fa-solid fa-info-circle me-1"></i>Your username cannot be changed
+                                </small>
+                            </div>
+                        </div>
+
+                        <!-- Phone Number Field -->
+                        <div class="row mb-4">
+                            <div class="col-12">
+                                <label asp-for="PhoneNumber" class="form-label fw-bold">
+                                    <i class="fa-solid fa-phone text-success me-1"></i>Phone Number
+                                </label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-white">
+                                        <i class="fa-solid fa-mobile-screen-button text-success"></i>
+                                    </span>
+                                    <input asp-for="PhoneNumber" class="form-control" placeholder="Enter your phone number (optional)" />
+                                </div>
+                                <span asp-validation-for="PhoneNumber" class="text-danger small"></span>
+                                <small class="form-text text-muted">
+                                    <i class="fa-solid fa-circle-info me-1"></i>Used for account recovery and security notifications
+                                </small>
+                            </div>
+                        </div>
+
+                        <!-- Action Buttons -->
+                        <div class="row">
+                            <div class="col-12">
+                                <hr class="mb-4">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <button type="submit" class="btn btn-primary btn-lg px-4 shadow-sm">
+                                        <i class="fa-solid fa-floppy-disk me-2"></i>Save Changes
+                                    </button>
+                                    <a asp-controller="Home" asp-action="Index" class="btn btn-outline-secondary">
+                                        <i class="fa-solid fa-xmark me-2"></i>Cancel
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Additional Info Card -->
+            <div class="card shadow-sm border-0 mt-4">
+                <div class="card-body p-4 bg-light">
+                    <h6 class="fw-bold mb-3"><i class="fa-solid fa-shield-halved text-primary me-2"></i>Account Security</h6>
+                    <p class="text-muted mb-2">
+                        <i class="fa-solid fa-check-circle text-success me-2"></i>Your account is protected with email verification
+                    </p>
+                    <p class="text-muted mb-0">
+                        <i class="fa-solid fa-lock text-warning me-2"></i>Consider enabling two-factor authentication for enhanced security
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

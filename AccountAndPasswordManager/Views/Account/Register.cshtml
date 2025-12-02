@@ -1,0 +1,61 @@
+@model AccountAndPasswordManager.Models.ViewModels.RegisterViewModel
+
+@{
+    ViewData["Title"] = "Register";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-5">
+            <div class="card shadow-lg border-0">
+                <div class="card-body p-5">
+                    <div class="text-center mb-4">
+                        <i class="fa-solid fa-user-plus fa-3x text-success mb-3"></i>
+                        <h1 class="h3 mb-3 fw-bold">@ViewData["Title"]</h1>
+                        <p class="text-muted">Create your SecureVault account</p>
+                    </div>
+
+                    <section>
+                        <form asp-action="Register" asp-controller="Account" method="post">
+                            <div asp-validation-summary="ModelOnly" class="alert alert-danger shadow-sm" role="alert"></div>
+
+                            <div class="form-floating mb-3">
+                                <input asp-for="Email" class="form-control" autocomplete="username" placeholder="name@example.com" />
+                                <label asp-for="Email">Email</label>
+                                <span asp-validation-for="Email" class="text-danger small"></span>
+                            </div>
+
+                            <div class="form-floating mb-3">
+                                <input asp-for="Password" class="form-control" autocomplete="new-password" placeholder="Password" />
+                                <label asp-for="Password">Password</label>
+                                <span asp-validation-for="Password" class="text-danger small"></span>
+                            </div>
+
+                            <div class="form-floating mb-3">
+                                <input asp-for="ConfirmPassword" class="form-control" autocomplete="new-password" placeholder="Confirm Password" />
+                                <label asp-for="ConfirmPassword">Confirm Password</label>
+                                <span asp-validation-for="ConfirmPassword" class="text-danger small"></span>
+                            </div>
+
+                            <div class="d-grid">
+                                <button type="submit" class="btn btn-success btn-lg shadow-sm">
+                                    <i class="fa-solid fa-user-plus me-2"></i>Register
+                                </button>
+                            </div>
+
+                            <div class="mt-4 text-center">
+                                <p class="mb-0">
+                                    Already have an account? <a asp-action="Login" asp-controller="Account" class="text-decoration-none">Log in</a>
+                                </p>
+                            </div>
+                        </form>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

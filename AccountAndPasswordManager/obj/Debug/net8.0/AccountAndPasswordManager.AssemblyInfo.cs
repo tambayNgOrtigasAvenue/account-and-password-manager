@@ -11,11 +11,12 @@
 using System;
 using System.Reflection;
 
+[assembly: Microsoft.AspNetCore.Identity.UI.UIFrameworkAttribute("Bootstrap5")]
 [assembly: Microsoft.Extensions.Configuration.UserSecrets.UserSecretsIdAttribute("63a2871a-18ef-4b1f-b3d2-7b3584c350d9")]
 [assembly: System.Reflection.AssemblyCompanyAttribute("AccountAndPasswordManager")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+71fdd91f542d82634e2293bddf2c3b007aebf5c2")]
 [assembly: System.Reflection.AssemblyProductAttribute("AccountAndPasswordManager")]
 [assembly: System.Reflection.AssemblyTitleAttribute("AccountAndPasswordManager")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
