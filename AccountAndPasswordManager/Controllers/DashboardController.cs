@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using AccountAndPasswordManager.Models;
 using AccountAndPasswordManager.Models.ViewModels;
+using AccountAndPasswordManager.Services;
 
 namespace AccountAndPasswordManager.Controllers
 {
@@ -13,11 +14,13 @@ namespace AccountAndPasswordManager.Controllers
     {
         private readonly AppDbContext _context;
         private readonly UserManager<IdentityUser> _userManager;
+        private readonly IEncryptionService _encryptionService;
 
-        public DashboardController(AppDbContext context, UserManager<IdentityUser> userManager)
+        public DashboardController(AppDbContext context, UserManager<IdentityUser> userManager, IEncryptionService encryptionService)
         {
             _context = context;
             _userManager = userManager;
+            _encryptionService = encryptionService;
         }
 
         // Helper to get or create the business user
@@ -60,6 +63,30 @@ namespace AccountAndPasswordManager.Controllers
             var user = await GetCurrentUserAsync();
             if (user == null) return RedirectToAction("Login", "Account");
 
+            // Decrypt data for display
+            foreach (var note in user.Notes)
+            {
+                note.EncryptedContent = _encryptionService.Decrypt(note.EncryptedContent);
+            }
+
+            foreach (var pass in user.Passwords)
+            {
+                pass.EncryptedPassword = _encryptionService.Decrypt(pass.EncryptedPassword);
+            }
+
+            foreach (var card in user.CardDetails)
+            {
+                card.EncryptedCardNumber = _encryptionService.Decrypt(card.EncryptedCardNumber);
+                card.EncryptedExpiryDate = _encryptionService.Decrypt(card.EncryptedExpiryDate);
+                card.EncryptedCvv = _encryptionService.Decrypt(card.EncryptedCvv);
+            }
+
+            foreach (var login in user.LoginInformations)
+            {
+                login.EncryptedUsername = _encryptionService.Decrypt(login.EncryptedUsername);
+                login.EncryptedPasswordHash = _encryptionService.Decrypt(login.EncryptedPasswordHash);
+            }
+
             var model = new DashboardViewModel
             {
                 Notes = user.Notes.ToList(),
@@ -82,14 +109,14 @@ namespace AccountAndPasswordManager.Controllers
                 {
                     UserId = user.UserId,
                     Title = model.Title,
-                    EncryptedContent = model.Content, // No encryption yet
+                    EncryptedContent = _encryptionService.Encrypt(model.Content),
                     CreatedAt = DateTime.UtcNow
                 };
                 _context.Notes.Add(note);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return RedirectToAction(nameof(Index)); // Should really show errors, but for modal UX we usually redirect or ajax
+            return RedirectToAction(nameof(Index));
         }
 
         [HttpPost]
@@ -102,7 +129,7 @@ namespace AccountAndPasswordManager.Controllers
                 var password = new Password
                 {
                     UserId = user.UserId,
-                    EncryptedPassword = model.PasswordValue, // No encryption yet
+                    EncryptedPassword = _encryptionService.Encrypt(model.PasswordValue),
                     Description = model.Description
                 };
                 _context.Passwords.Add(password);
@@ -124,9 +151,9 @@ namespace AccountAndPasswordManager.Controllers
                     UserId = user.UserId,
                     CardName = model.CardName,
                     CardNameHolder = model.CardHolderName,
-                    EncryptedCardNumber = model.CardNumber, // No encryption yet
-                    EncryptedExpiryDate = model.ExpiryDate,
-                    EncryptedCvv = model.CVV,
+                    EncryptedCardNumber = _encryptionService.Encrypt(model.CardNumber),
+                    EncryptedExpiryDate = _encryptionService.Encrypt(model.ExpiryDate),
+                    EncryptedCvv = _encryptionService.Encrypt(model.CVV),
                     Description = model.Description,
                     CreatedAt = DateTime.UtcNow
                 };
@@ -148,8 +175,8 @@ namespace AccountAndPasswordManager.Controllers
                 {
                     UserId = user.UserId,
                     Title = model.Title,
-                    EncryptedUsername = model.Username,
-                    EncryptedPasswordHash = model.Password, // No encryption/hashing yet
+                    EncryptedUsername = _encryptionService.Encrypt(model.Username),
+                    EncryptedPasswordHash = _encryptionService.Encrypt(model.Password),
                     Website = model.Website,
                     Description = model.Description,
                     CreatedAt = DateTime.UtcNow
@@ -175,7 +202,7 @@ namespace AccountAndPasswordManager.Controllers
                 if (item != null)
                 {
                     item.Title = model.Title;
-                    item.EncryptedContent = model.Content;
+                    item.EncryptedContent = _encryptionService.Encrypt(model.Content);
                     await _context.SaveChangesAsync();
                 }
             }
@@ -207,7 +234,7 @@ namespace AccountAndPasswordManager.Controllers
                 var item = await _context.Passwords.FirstOrDefaultAsync(x => x.PasswordId == model.PasswordId && x.UserId == user.UserId);
                 if (item != null)
                 {
-                    item.EncryptedPassword = model.PasswordValue;
+                    item.EncryptedPassword = _encryptionService.Encrypt(model.PasswordValue);
                     item.Description = model.Description;
                     await _context.SaveChangesAsync();
                 }
@@ -242,9 +269,9 @@ namespace AccountAndPasswordManager.Controllers
                 {
                     item.CardName = model.CardName;
                     item.CardNameHolder = model.CardHolderName;
-                    item.EncryptedCardNumber = model.CardNumber;
-                    item.EncryptedExpiryDate = model.ExpiryDate;
-                    item.EncryptedCvv = model.CVV;
+                    item.EncryptedCardNumber = _encryptionService.Encrypt(model.CardNumber);
+                    item.EncryptedExpiryDate = _encryptionService.Encrypt(model.ExpiryDate);
+                    item.EncryptedCvv = _encryptionService.Encrypt(model.CVV);
                     item.Description = model.Description;
                     await _context.SaveChangesAsync();
                 }
@@ -278,8 +305,8 @@ namespace AccountAndPasswordManager.Controllers
                 if (item != null)
                 {
                     item.Title = model.Title;
-                    item.EncryptedUsername = model.Username;
-                    item.EncryptedPasswordHash = model.Password;
+                    item.EncryptedUsername = _encryptionService.Encrypt(model.Username);
+                    item.EncryptedPasswordHash = _encryptionService.Encrypt(model.Password);
                     item.Website = model.Website;
                     item.Description = model.Description;
                     await _context.SaveChangesAsync();

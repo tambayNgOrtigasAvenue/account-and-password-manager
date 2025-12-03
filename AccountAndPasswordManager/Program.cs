@@ -17,6 +17,8 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.Requ
 
 // Register email sender
 builder.Services.AddTransient<IEmailSender, EmailSender>();
+// Register encryption service
+builder.Services.AddSingleton<IEncryptionService, EncryptionService>();
 
 var app = builder.Build();
 
